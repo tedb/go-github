@@ -233,3 +233,8 @@ func (s *RepositoriesService) ListTeams(owner string, repository string) ([]Team
 	resp, err := s.client.Do(req, teams)
 	return *teams, resp, err
 }
+
+// this ListTeams method can be invoked against a repository struct
+func (repo Repository) ListTeams(s *RepositoriesService) ([]Team, *Response, error) {
+	return s.ListTeams(repo.Owner.Name, repo.Name)
+}

@@ -219,3 +219,17 @@ func (s *RepositoriesService) ListLanguages(owner string, repository string) (ma
 	resp, err := s.client.Do(req, &languages)
 	return languages, resp, err
 }
+
+// ListTeams lists teams for the specified repository. Returned is a list of Team structs
+// GitHub API Docs: http://developer.github.com/v3/repos/#list-teams
+func (s *RepositoriesService) ListTeams(owner string, repository string) ([]Team, *Response, error) {
+	u := fmt.Sprintf("/repos/%v/%v/teams", owner, repository)
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	teams := new([]Team)
+	resp, err := s.client.Do(req, teams)
+	return *teams, resp, err
+}
